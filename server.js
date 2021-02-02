@@ -17,7 +17,7 @@ app.get("/users", async (req, res) => {
     res.json({
       code: 200,
       operation: "success",
-      description: "Insert new user",
+      description: "Fetched all users",
       data: data.rows,
     });
   } catch (e) {
@@ -34,7 +34,7 @@ app.get("/users/:id", async (req, res) => {
     res.json({
       code: 200,
       operation: "success",
-      description: "Insert new user",
+      description: "Fetched user by id",
       data: data.rows,
     });
   } catch (e) {
@@ -44,14 +44,30 @@ app.get("/users/:id", async (req, res) => {
 });
 
 app.get("/orders", async (req, res) => {
-  const { id } = req.params;
   try {
     const data = await pool.query("SELECT * FROM orders");
 
     res.json({
       code: 200,
       operation: "success",
-      description: "Insert new user",
+      description: "Fetched all orders",
+      data: data.rows,
+    });
+  } catch (e) {
+    console.error(Error(e));
+    res.status(500).send("Something happened");
+  }
+});
+
+app.get("/orders/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await pool.query("SELECT * FROM orders WHERE id=$1", [id]);
+
+    res.json({
+      code: 200,
+      operation: "success",
+      description: "Fetched order by id",
       data: data.rows,
     });
   } catch (e) {
