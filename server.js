@@ -43,4 +43,21 @@ app.get("/users/:id", async (req, res) => {
   }
 });
 
+app.get("/orders", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await pool.query("SELECT * FROM orders");
+
+    res.json({
+      code: 200,
+      operation: "success",
+      description: "Insert new user",
+      data: data.rows,
+    });
+  } catch (e) {
+    console.error(Error(e));
+    res.status(500).send("Something happened");
+  }
+});
+
 app.listen(port, () => console.log(`Server running on port ${port}`));
