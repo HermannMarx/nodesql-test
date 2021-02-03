@@ -1,22 +1,17 @@
 const express = require("express");
-const users = require("./routes/users");
-const orders = require("./routes/orders");
+const app = express();
+
+const dotenv = require("dotenv");
+dotenv.config();
+const { PORT } = process.env;
+const port = PORT;
 
 const pool = require("./dbconfig");
 
-const { PORT } = process.env;
-
-const app = express();
-const port = PORT;
+const users = require("./routes/users");
+const orders = require("./routes/orders");
 
 app.use("/users", users);
-
-//app.get("/users/:id", users);
-
-//app.delete("users/:id", users);
-
 app.use("/orders", orders);
-
-//app.get("/orders/:id", orders);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
