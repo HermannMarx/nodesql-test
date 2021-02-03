@@ -9,12 +9,14 @@ const { PORT } = process.env;
 const app = express();
 const port = PORT;
 
-app.get("/users", users);
+app.use("/users", users);
 
-app.get("/users/:id", users);
+//app.get("/users/:id", users);
 
-app.get("/orders", orders);
+//app.delete("users/:id", users);
 
-app.get("/orders/:id", orders);
+app.use("/orders", orders);
+
+//app.get("/orders/:id", orders);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
