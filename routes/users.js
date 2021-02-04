@@ -17,7 +17,7 @@ router.delete("/:id", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const { id } = req.params;
-  const { name, last, age } = req.query;
+  const { name, last, age } = req.body;
 
   pool
     .query(
@@ -32,7 +32,7 @@ router.put("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { name, last, age } = req.query;
+  const { name, last, age } = req.body;
 
   pool
     .query(

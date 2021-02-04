@@ -37,7 +37,8 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { price, date, user_id } = req.query;
+  const { price, date, user_id } = req.body;
+  console.log(req.body);
 
   pool
     .query("INSERT INTO orders(price, date, user_id) values($1, $2, $3);", [
@@ -51,7 +52,7 @@ router.post("/", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const { id } = req.params;
-  const { price, date, user_id } = req.query;
+  const { price, date, user_id } = req.body;
 
   pool
     .query(
