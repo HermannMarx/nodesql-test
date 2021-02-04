@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
+const verify = require("../controllers/tokenController");
 const pool = require("../dbconfig");
 
-router.get("/", async (req, res) => {
+router.get("/", verify, async (req, res) => {
   try {
     const data = await pool.query("SELECT * FROM orders");
 
@@ -19,7 +20,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", verify, async (req, res) => {
   const { id } = req.params;
   try {
     const data = await pool.query("SELECT * FROM orders WHERE id=$1", [id]);
@@ -36,7 +37,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
+router.post("/", verify, (req, res) => {
   const { price, date, user_id } = req.body;
   console.log(req.body);
 
@@ -50,7 +51,7 @@ router.post("/", (req, res) => {
     .catch((e) => res.sendStatus(404));
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", verify, (req, res) => {
   const { id } = req.params;
   const { price, date, user_id } = req.body;
 
@@ -63,7 +64,7 @@ router.put("/:id", (req, res) => {
     .catch((e) => res.sendStatus(404));
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", verify, (req, res) => {
   const { id } = req.params;
 
   pool

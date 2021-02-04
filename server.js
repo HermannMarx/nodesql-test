@@ -11,6 +11,7 @@ const pool = require("./dbconfig");
 
 const users = require("./routes/users");
 const orders = require("./routes/orders");
+const verify = require("./controllers/tokenController");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

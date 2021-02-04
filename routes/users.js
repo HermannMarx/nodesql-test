@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 const pool = require("../dbconfig");
+const verify = require("../controllers/tokenController");
 
 router.delete(
   "/:id",
+  verify,
   (req, res, next) => {
     const { id } = req.params;
 
@@ -31,7 +33,7 @@ router.delete(
   }
 );
 
-router.put("/:id", (req, res) => {
+router.put("/:id", verify, (req, res) => {
   const { id } = req.params;
   const { name, last, age } = req.body;
 
@@ -47,7 +49,7 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", verify, (req, res) => {
   const { name, last, age } = req.body;
 
   pool
@@ -59,7 +61,7 @@ router.post("/", (req, res) => {
     .catch((e) => res.sendStatus(404));
 });
 
-router.get("/", async (req, res) => {
+router.get("/", verify, async (req, res) => {
   try {
     const data = await pool.query("SELECT * FROM users");
 
@@ -75,7 +77,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", verify, async (req, res) => {
   const { id } = req.params;
   try {
     const data = await pool.query("SELECT * FROM users WHERE id=$1", [id]);
