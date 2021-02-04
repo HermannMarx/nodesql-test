@@ -3,17 +3,33 @@ const router = express.Router();
 
 const pool = require("../dbconfig");
 
-router.delete("/:id", (req, res) => {
-  const { id } = req.params;
+router.delete(
+  "/:id",
+  (req, res, next) => {
+    const { id } = req.params;
 
-  pool
-    .query("DELETE FROM users WHERE id=$1;", [id])
-    .then((data) => res.status(201).json(data))
-    .catch((e) => {
-      res.sendStatus(404);
-      console.log(e);
-    });
-});
+    pool
+      .query("DELETE FROM orders WHERE user_id=$1", [id])
+      .then((data) => res.status(201).json(data))
+      .catch((e) => {
+        res.sendStatus(404);
+        console.log(e);
+      });
+    next();
+  },
+
+  (req, res) => {
+    const { id } = req.params;
+
+    pool
+      .query("DELETE FROM users WHERE id=$1;", [id])
+      .then((data) => res.status(201).json(data))
+      .catch((e) => {
+        res.sendStatus(404);
+        console.log(e);
+      });
+  }
+);
 
 router.put("/:id", (req, res) => {
   const { id } = req.params;
